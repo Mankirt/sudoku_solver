@@ -46,3 +46,12 @@
   border: 1px solid black;
   border-radius: 4%;
 }
+
+td{
+  padding: 0;
+}
+
+table{
+  border: 2px solid cornsilk;
+}
+
