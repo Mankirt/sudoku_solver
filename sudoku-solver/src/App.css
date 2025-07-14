@@ -65,7 +65,30 @@ table{
   padding: 10px 20px;
   font-weight: bold;
   font-size: 16px;
-  background-color: #eb8b3d;
+  background-color: #3ee64c;
+  color: black;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 0px 15px;
+}
+
+.checkButton {
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #46e9ff;
+  color: black;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.resetButton {
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: red;
   color: black;
   border: none;
   border-radius: 25px;

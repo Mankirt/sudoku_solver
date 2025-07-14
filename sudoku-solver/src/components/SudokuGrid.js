@@ -50,7 +50,9 @@ function SudokuGrid() {
       </tbody>
     </table>
     <div className='buttonContainer'>
+      <button className='checkButton'>Check</button>
       <button className='saveButton'>Solve</button>
+      <button className='resetButton'>Reset</button>
     </div>
     </div>
   );
