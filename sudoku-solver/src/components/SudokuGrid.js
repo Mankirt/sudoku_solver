@@ -28,6 +28,7 @@ function SudokuGrid() {
     }
   }
   return (
+    <div>
     <table>
       <tbody>
         {
@@ -48,6 +49,10 @@ function SudokuGrid() {
         }
       </tbody>
     </table>
+    <div className='buttonContainer'>
+      <button className='saveButton'>Solve</button>
+    </div>
+    </div>
   );
 }
 
