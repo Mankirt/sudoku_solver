@@ -71,3 +71,10 @@ table{
   border-radius: 25px;
   cursor: pointer;
 }
+
+.gridRowBorder {
+  border-bottom: 3px solid black;
+}
+.gridColBorder {
+  border-right: 3px solid black;
+}
