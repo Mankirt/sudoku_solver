@@ -52,6 +52,8 @@ td{
 }
 
 table{
+  border-collapse: collapse;
   border: 2px solid cornsilk;
+  background-color: cornsilk;
 }
 

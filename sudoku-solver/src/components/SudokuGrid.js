@@ -14,16 +14,32 @@ const initialGrid = [
 
 function SudokuGrid() {
   const [sudokuGrid, setSudokuGrid] = useState(initialGrid);
+
+  function copyGrid(grid) {
+    return grid.map(row => [...row]);
+  }
+
+  function onGridChange(e, row, col) {
+    let val = parseInt(e.target.value) || -1
+    let grid = copyGrid(sudokuGrid);
+    if (val === -1 || (val >= 1 && val <= 9)) {
+      grid[row][col] = val;
+      setSudokuGrid(grid);
+    }
+  }
   return (
     <table>
       <tbody>
         {
-          Array.from({ length: 9 }, (_, rowIdx) => (
+          Array.from({ length: 9 }, (r, rowIdx) => (
             <tr key={rowIdx}>
               {
-                Array.from({ length: 9 }, (_, colIdx) => (
+                Array.from({ length: 9 }, (c, colIdx) => (
                   <td key={colIdx}>
-                    <input value={sudokuGrid[rowIdx][colIdx] === -1 ? '' : sudokuGrid[rowIdx][colIdx]} className="cellInput" />
+                    <input onChange={(e) => onGridChange(e, rowIdx, colIdx)} 
+                    value={sudokuGrid[rowIdx][colIdx] === -1 ? '' : sudokuGrid[rowIdx][colIdx]} 
+                    className="cellInput" 
+                    disabled={initialGrid[rowIdx][colIdx] !== -1}/>
                   </td>
                 ))
               }
