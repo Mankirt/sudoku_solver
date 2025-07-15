@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 const initialGrid = [
   [1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -55,6 +55,10 @@ function SudokuGrid() {
   const [rowSets, setRowSets] = useState(() => buildSets(sudokuGrid).rowSets);
   const [colSets, setColSets] = useState(() => buildSets(sudokuGrid).colSets);
   const [boxSets, setBoxSets] = useState(() => buildSets(sudokuGrid).boxSets);
+
+  useEffect(() => {
+    localStorage.setItem('sudokuGrid', JSON.stringify(sudokuGrid));
+  }, [sudokuGrid]);
 
   function getNext(row, col) {
     if (col < 8) {
