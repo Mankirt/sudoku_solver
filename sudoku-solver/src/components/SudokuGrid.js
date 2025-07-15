@@ -12,6 +12,26 @@ const initialGrid = [
   [9, -1, -1, -1, -1, -1, -1, -1, -1]
 ]
 
+function generateValidSudoku() {
+    // TODO: Implement a function that generates a valid, unsolved Sudoku grid
+    // For now, using initial grid as a placeholder
+    return initialGrid;
+  }
+
+function getInitialGrid() {
+    const wasReset = localStorage.getItem('sudokuWasReset');
+    if (wasReset === 'true') {
+      // Generate a new valid Sudoku grid
+      const newGrid = generateValidSudoku();
+      localStorage.setItem('sudokuGrid', JSON.stringify(newGrid));
+      localStorage.setItem('sudokuWasReset', 'false');
+      return newGrid;
+    }
+    // Otherwise, use the saved grid or initialGrid
+    const saved = localStorage.getItem('sudokuGrid');
+    return saved ? JSON.parse(saved) : initialGrid;
+  }
+
 function SudokuGrid() {
   const [sudokuGrid, setSudokuGrid] = useState(initialGrid);
 
