@@ -56,6 +56,16 @@ function SudokuGrid() {
   const [colSets, setColSets] = useState(() => buildSets(sudokuGrid).colSets);
   const [boxSets, setBoxSets] = useState(() => buildSets(sudokuGrid).boxSets);
 
+  function getNext(row, col) {
+    if (col < 8) {
+      return [row, col + 1];
+    } else if (row < 8) {
+      return [row + 1, 0];
+    } else {
+      return [9, 0]; // Signal completion
+    }
+  }
+
   function solveSudokuHelper(grid, row = 0, col = 0, rowSets, colSets, boxSets) {
     if (row === 9) return true;
 
