@@ -60,6 +60,29 @@ function SudokuGrid() {
     localStorage.setItem('sudokuGrid', JSON.stringify(sudokuGrid));
   }, [sudokuGrid]);
 
+  function checkSudoku() {
+    // Build local sets from the user's current grid
+    const { rowSets: localRowSets, colSets: localColSets, boxSets: localBoxSets } = buildSets(sudokuGrid);
+
+    // Check completeness: all sets should have size 9
+    const isComplete =
+      localRowSets.every(set => set.size === 9) &&
+      localColSets.every(set => set.size === 9) &&
+      localBoxSets.every(set => set.size === 9);
+
+    // Use local sets for the solver
+    let sudoku = copyGrid(sudokuGrid);
+    const isSolvable = solveSudokuHelper(sudoku, 0, 0, localRowSets, localColSets, localBoxSets);
+
+    if (isSolvable && isComplete) {
+      alert("Sudoku is complete!");
+    } else if (isSolvable) {
+      alert("Sudoku is solvable but not complete.");
+    } else {
+      alert("Sudoku cannot be solved.");
+    }
+  }
+
   function getNext(row, col) {
     if (col < 8) {
       return [row, col + 1];
@@ -205,7 +228,7 @@ function SudokuGrid() {
       </tbody>
     </table>
     <div className='buttonContainer'>
-      <button className='checkButton'>Check</button>
+      <button className='checkButton' onClick={checkSudoku}>Check</button>
       <button className='solveButton' onClick={solveSudoku}>Solve</button>
       <button className='resetButton'onClick={resetSudoku}>Reset</button>
     </div>
