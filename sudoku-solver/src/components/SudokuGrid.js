@@ -56,7 +56,7 @@ function SudokuGrid() {
   const [colSets, setColSets] = useState(() => buildSets(sudokuGrid).colSets);
   const [boxSets, setBoxSets] = useState(() => buildSets(sudokuGrid).boxSets);
 
-    function solveSudokuHelper(grid, row = 0, col = 0, rowSets, colSets, boxSets) {
+  function solveSudokuHelper(grid, row = 0, col = 0, rowSets, colSets, boxSets) {
     if (row === 9) return true;
 
     if (grid[row][col] !== -1) {
@@ -154,6 +154,18 @@ function SudokuGrid() {
     setBoxSets([...boxSets]);
   }
 
+  function resetSudoku() {
+    localStorage.setItem('sudokuWasReset', 'true');
+    const newGrid = getInitialGrid();
+    setSudokuGrid(newGrid);
+
+    // Rebuild sets from the new grid
+    const { rowSets: newRowSets, colSets: newColSets, boxSets: newBoxSets } = buildSets(newGrid);
+    setRowSets(newRowSets);
+    setColSets(newColSets);
+    setBoxSets(newBoxSets);
+  }
+
   return (
     <div>
     <table>
@@ -181,7 +193,7 @@ function SudokuGrid() {
     <div className='buttonContainer'>
       <button className='checkButton'>Check</button>
       <button className='solveButton' onClick={solveSudoku}>Solve</button>
-      <button className='resetButton'>Reset</button>
+      <button className='resetButton'onClick={resetSudoku}>Reset</button>
     </div>
     </div>
   );
