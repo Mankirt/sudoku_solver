@@ -61,13 +61,44 @@ function SudokuGrid() {
   }
 
   function onGridChange(e, row, col) {
-    let val = parseInt(e.target.value) || -1
+    let val = parseInt(e.target.value) || -1;
     let grid = copyGrid(sudokuGrid);
-    if (val === -1 || (val >= 1 && val <= 9)) {
-      grid[row][col] = val;
-      setSudokuGrid(grid);
+    const boxIdx = Math.floor(row / 3) * 3 + Math.floor(col / 3);
+
+    // Remove old value from sets
+    const oldVal = grid[row][col];
+    if (oldVal !== -1) {
+      rowSets[row].delete(oldVal);
+      colSets[col].delete(oldVal);
+      boxSets[boxIdx].delete(oldVal);
     }
+
+    // Check sets for immediate validity
+    if (val !== -1 && (rowSets[row].has(val) || colSets[col].has(val) || boxSets[boxIdx].has(val))) {
+      alert("Invalid move: number already exists in row, column, or box!");
+      // Restore old value to sets
+      if (oldVal !== -1) {
+        rowSets[row].add(oldVal);
+        colSets[col].add(oldVal);
+        boxSets[boxIdx].add(oldVal);
+      }
+      return;
+    }
+
+    // Add new value to sets
+    if (val !== -1) {
+      rowSets[row].add(val);
+      colSets[col].add(val);
+      boxSets[boxIdx].add(val);
+    }
+
+    grid[row][col] = val;
+    setSudokuGrid(grid);
+    setRowSets([...rowSets]);
+    setColSets([...colSets]);
+    setBoxSets([...boxSets]);
   }
+  
   return (
     <div>
     <table>
