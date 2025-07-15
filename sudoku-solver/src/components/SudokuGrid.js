@@ -32,8 +32,29 @@ function getInitialGrid() {
     return saved ? JSON.parse(saved) : initialGrid;
   }
 
+function buildSets(grid) {
+  let rowSets = Array.from({ length: 9 }, () => new Set());
+  let colSets = Array.from({ length: 9 }, () => new Set());
+  let boxSets = Array.from({ length: 9 }, () => new Set());
+  for (let r = 0; r < 9; r++) {
+    for (let c = 0; c < 9; c++) {
+      const val = grid[r][c];
+      if (val !== -1) {
+        rowSets[r].add(val);
+        colSets[c].add(val);
+        const boxIdx = Math.floor(r / 3) * 3 + Math.floor(c / 3);
+        boxSets[boxIdx].add(val);
+      }
+    }
+  }
+  return { rowSets, colSets, boxSets };
+}
+
 function SudokuGrid() {
-  const [sudokuGrid, setSudokuGrid] = useState(initialGrid);
+  const [sudokuGrid, setSudokuGrid] = useState(getInitialGrid());
+  const [rowSets, setRowSets] = useState(() => buildSets(sudokuGrid).rowSets);
+  const [colSets, setColSets] = useState(() => buildSets(sudokuGrid).colSets);
+  const [boxSets, setBoxSets] = useState(() => buildSets(sudokuGrid).boxSets);
 
   function copyGrid(grid) {
     return grid.map(row => [...row]);
