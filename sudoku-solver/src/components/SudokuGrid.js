@@ -56,6 +56,61 @@ function SudokuGrid() {
   const [colSets, setColSets] = useState(() => buildSets(sudokuGrid).colSets);
   const [boxSets, setBoxSets] = useState(() => buildSets(sudokuGrid).boxSets);
 
+    function solveSudokuHelper(grid, row = 0, col = 0, rowSets, colSets, boxSets) {
+    if (row === 9) return true;
+
+    if (grid[row][col] !== -1) {
+      const [newRow, newCol] = getNext(row, col);
+      return solveSudokuHelper(grid, newRow, newCol, rowSets, colSets, boxSets);
+    }
+
+    const boxIdx = Math.floor(row / 3) * 3 + Math.floor(col / 3);
+
+    for (let num = 1; num <= 9; num++) {
+      if (!rowSets[row].has(num) && !colSets[col].has(num) && !boxSets[boxIdx].has(num)) {
+        grid[row][col] = num;
+        rowSets[row].add(num);
+        colSets[col].add(num);
+        boxSets[boxIdx].add(num);
+
+        const [newRow, newCol] = getNext(row, col);
+        if (solveSudokuHelper(grid, newRow, newCol, rowSets, colSets, boxSets)) {
+          return true;
+        }
+
+        grid[row][col] = -1;
+        rowSets[row].delete(num);
+        colSets[col].delete(num);
+        boxSets[boxIdx].delete(num);
+      }
+    }
+    return false;
+  }
+
+  function solveSudoku() {
+    let crrGrid = copyGrid(sudokuGrid);
+
+    // Initialize sets
+    let rowSets = Array.from({ length: 9 }, () => new Set());
+    let colSets = Array.from({ length: 9 }, () => new Set());
+    let boxSets = Array.from({ length: 9 }, () => new Set());
+
+    for (let r = 0; r < 9; r++) {
+      for (let c = 0; c < 9; c++) {
+        const val = crrGrid[r][c];
+        if (val !== -1) {
+          rowSets[r].add(val);
+          colSets[c].add(val);
+          const boxIdx = Math.floor(r / 3) * 3 + Math.floor(c / 3);
+          boxSets[boxIdx].add(val);
+        }
+      }
+    }
+
+    solveSudokuHelper(crrGrid, 0, 0, rowSets, colSets, boxSets);
+    setSudokuGrid(crrGrid);
+  }
+
   function copyGrid(grid) {
     return grid.map(row => [...row]);
   }
@@ -98,7 +153,7 @@ function SudokuGrid() {
     setColSets([...colSets]);
     setBoxSets([...boxSets]);
   }
-  
+
   return (
     <div>
     <table>
@@ -125,7 +180,7 @@ function SudokuGrid() {
     </table>
     <div className='buttonContainer'>
       <button className='checkButton'>Check</button>
-      <button className='solveButton' >Solve</button>
+      <button className='solveButton' onClick={solveSudoku}>Solve</button>
       <button className='resetButton'>Reset</button>
     </div>
     </div>
