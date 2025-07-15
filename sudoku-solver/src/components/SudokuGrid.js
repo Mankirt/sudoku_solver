@@ -103,7 +103,15 @@ function SudokuGrid() {
 
     const boxIdx = Math.floor(row / 3) * 3 + Math.floor(col / 3);
 
-    for (let num = 1; num <= 9; num++) {
+    // Shuffle numbers 1-9 for randomness
+    const nums = [1,2,3,4,5,6,7,8,9];
+    for (let i = nums.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [nums[i], nums[j]] = [nums[j], nums[i]];
+    }
+
+    for (let k = 0; k < nums.length; k++) {
+      const num = nums[k];
       if (!rowSets[row].has(num) && !colSets[col].has(num) && !boxSets[boxIdx].has(num)) {
         grid[row][col] = num;
         rowSets[row].add(num);
