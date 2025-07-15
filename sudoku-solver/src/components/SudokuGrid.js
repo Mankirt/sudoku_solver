@@ -20,11 +20,35 @@ function SudokuGrid() {
   const [colSets, setColSets] = useState(() => buildSets(sudokuGrid).colSets);
   const [boxSets, setBoxSets] = useState(() => buildSets(sudokuGrid).boxSets);
 
-  function generateValidSudoku() {
-      // TODO: Implement a function that generates a valid, unsolved Sudoku grid
-      // For now, using initial grid as a placeholder
-      return initialGrid;
+  function generateValidSudoku(difficulty = "easy") {
+    let grid = Array.from({ length: 9 }, () => Array(9).fill(-1));
+    let { rowSets, colSets, boxSets } = buildSets(grid);
+    solveSudokuHelper(grid, 0, 0, rowSets, colSets, boxSets);
+
+    let clues;
+    if (difficulty === "easy") clues = 36;
+    else if (difficulty === "medium") clues = 30;
+    else clues = 24; // hard
+
+    let positions = [];
+    for (let r = 0; r < 9; r++) {
+      for (let c = 0; c < 9; c++) {
+        positions.push([r, c]);
+      }
     }
+    // Shuffle positions
+    for (let i = positions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [positions[i], positions[j]] = [positions[j], positions[i]];
+    }
+
+    for (let i = 0; i < 81 - clues; i++) {
+      const [r, c] = positions[i];
+      grid[r][c] = -1;
+    }
+
+    return grid;
+  }
 
   function getInitialGrid() {
       const wasReset = localStorage.getItem('sudokuWasReset');
