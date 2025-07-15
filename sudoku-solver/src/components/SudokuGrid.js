@@ -32,15 +32,17 @@ function SudokuGrid() {
     <table>
       <tbody>
         {
-          Array.from({ length: 9 }, (r, rowIdx) => (
-            <tr key={rowIdx} className={(rowIdx + 1) % 3 === 0? 'gridRowBorder': ""}>
+          Array.from({ length: 9 }).map((_, rowIdx) => (
+            <tr key={rowIdx} className={(rowIdx + 1) % 3 === 0 ? 'gridRowBorder' : ""}>
               {
-                Array.from({ length: 9 }, (c, colIdx) => (
-                  <td key={colIdx} className={(colIdx + 1) % 3 === 0? 'gridColBorder': ""}>
-                    <input onChange={(e) => onGridChange(e, rowIdx, colIdx)} 
-                    value={sudokuGrid[rowIdx][colIdx] === -1 ? '' : sudokuGrid[rowIdx][colIdx]} 
-                    className="cellInput" 
-                    disabled={initialGrid[rowIdx][colIdx] !== -1}/>
+                Array.from({ length: 9 }).map((_, colIdx) => (
+                  <td key={colIdx} className={(colIdx + 1) % 3 === 0 ? 'gridColBorder' : ""}>
+                    <input
+                      onChange={(e) => onGridChange(e, rowIdx, colIdx)}
+                      value={sudokuGrid[rowIdx][colIdx] === -1 ? '' : sudokuGrid[rowIdx][colIdx]}
+                      className="cellInput"
+                      disabled={initialGrid[rowIdx][colIdx] !== -1}
+                    />
                   </td>
                 ))
               }
