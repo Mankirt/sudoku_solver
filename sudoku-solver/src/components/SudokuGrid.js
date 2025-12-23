@@ -181,8 +181,28 @@ function SudokuGrid() {
     }
 
     solveSudokuHelper(crrGrid, 0, 0, rowSets, colSets, boxSets);
-    setSudokuGrid(crrGrid);
+    fillGridWithEffect(crrGrid);
+    
   }
+
+  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+  async function fillGridWithEffect(solvedGrid) {
+    const speed = 5; // ms per cell
+    for (let r = 0; r < 9; r++) {
+      for (let c = 0; c < 9; c++) {
+        // update a single cell
+        setSudokuGrid(prev => {
+          const newGrid = prev.map(row => [...row]);
+          newGrid[r][c] = solvedGrid[r][c];
+          return newGrid;
+        });
+        
+        await sleep(speed);
+        
+      }
+    }
+  }
+
 
   function copyGrid(grid) {
     return grid.map(row => [...row]);
