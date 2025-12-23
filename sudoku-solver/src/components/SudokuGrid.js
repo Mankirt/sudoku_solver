@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-const initialGrid = [
+var initialGrid = [
   [1, -1, -1, -1, -1, -1, -1, -1, -1],
   [2, -1, -1, -1, -1, -1, -1, -1, -1],
   [3, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -19,6 +19,7 @@ function SudokuGrid() {
   const [rowSets, setRowSets] = useState(() => buildSets(sudokuGrid).rowSets);
   const [colSets, setColSets] = useState(() => buildSets(sudokuGrid).colSets);
   const [boxSets, setBoxSets] = useState(() => buildSets(sudokuGrid).boxSets);
+  const[gridVersion, setGridVersion] = useState(0); // For forcing re-render
 
   function generateValidSudoku(difficulty = "easy") {
     let grid = Array.from({ length: 9 }, () => Array(9).fill(-1));
@@ -57,6 +58,7 @@ function SudokuGrid() {
         const newGrid = generateValidSudoku();
         localStorage.setItem('sudokuGrid', JSON.stringify(newGrid));
         localStorage.setItem('sudokuWasReset', 'false');
+        initialGrid = newGrid;
         return newGrid;
       }
       // Otherwise, use the saved grid or initialGrid
@@ -229,6 +231,7 @@ function SudokuGrid() {
     localStorage.setItem('sudokuWasReset', 'true');
     const newGrid = getInitialGrid();
     setSudokuGrid(newGrid);
+    setGridVersion(gridVersion + 1); // Force re-render
 
     // Rebuild sets from the new grid
     const { rowSets: newRowSets, colSets: newColSets, boxSets: newBoxSets } = buildSets(newGrid);
@@ -239,7 +242,7 @@ function SudokuGrid() {
 
   return (
     <div>
-    <table>
+    <table key={gridVersion}>
       <tbody>
         {
           Array.from({ length: 9 }).map((_, rowIdx) => (
