@@ -268,7 +268,7 @@ function SudokuGrid() {
 
   return (
     <div>
-      <div className='difficultyHeader'><h5>Select Difficulty</h5></div>
+      <div className='difficultyHeader'>Select Difficulty</div>
       <div className='difficultyContainer'>
         <button className='easyButton' onClick={() => resetSudoku('easy')} disabled={isSolving}>Easy</button>
         <button className='mediumButton' onClick={() => resetSudoku('medium')} disabled={isSolving}>Medium</button>

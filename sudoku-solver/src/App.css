@@ -101,3 +101,48 @@ table{
 .gridColBorder {
   border-right: 3px solid black;
 }
+
+.difficultyHeader {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: large;
+  color:beige
+}
+.difficultyContainer {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding-inline: 10px;
+}
+.easyButton {
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #90ee90;
+  color: black;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 0px 5px;
+}
+.mediumButton {
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #e9c009;
+  color: black;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 0px 5px;
+}
+.hardButton {
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #e17d02;
+  color: black;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 0px 5px;
+}
