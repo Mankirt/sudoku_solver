@@ -283,6 +283,7 @@ function SudokuGrid() {
                 Array.from({ length: 9 }).map((_, colIdx) => (
                   <td key={colIdx} className={(colIdx + 1) % 3 === 0 ? 'gridColBorder' : ""}>
                     <input
+                      maxLength={1}
                       onChange={(e) => onGridChange(e, rowIdx, colIdx)}
                       value={sudokuGrid[rowIdx][colIdx] === -1 ? '' : sudokuGrid[rowIdx][colIdx]}
                       className="cellInput"
