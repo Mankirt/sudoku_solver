@@ -15,12 +15,14 @@ var initialGrid = [
 
 
 function SudokuGrid() {
-  const [sudokuGrid, setSudokuGrid] = useState(getInitialGrid());
+  const [difficulty, setDifficulty] = useState("easy");
+  const [sudokuGrid, setSudokuGrid] = useState(getInitialGrid(difficulty));
   const [rowSets, setRowSets] = useState(() => buildSets(sudokuGrid).rowSets);
   const [colSets, setColSets] = useState(() => buildSets(sudokuGrid).colSets);
   const [boxSets, setBoxSets] = useState(() => buildSets(sudokuGrid).boxSets);
   const[gridVersion, setGridVersion] = useState(0); // For forcing re-render
   const [isSolving, setIsSolving] = useState(false);
+  
 
   function generateValidSudoku(difficulty = "easy") {
     let grid = Array.from({ length: 9 }, () => Array(9).fill(-1));
@@ -52,11 +54,11 @@ function SudokuGrid() {
     return grid;
   }
 
-  function getInitialGrid() {
+  function getInitialGrid(level) {
       const wasReset = localStorage.getItem('sudokuWasReset');
       if (wasReset === 'true') {
         // Generate a new valid Sudoku grid
-        const newGrid = generateValidSudoku();
+        const newGrid = generateValidSudoku(level);
         localStorage.setItem('sudokuGrid', JSON.stringify(newGrid));
         localStorage.setItem('sudokuWasReset', 'false');
         initialGrid = newGrid;
@@ -249,9 +251,10 @@ function SudokuGrid() {
     setBoxSets([...boxSets]);
   }
 
-  function resetSudoku() {
+  function resetSudoku(level = difficulty) {
+    setDifficulty(level);
     localStorage.setItem('sudokuWasReset', 'true');
-    const newGrid = getInitialGrid();
+    const newGrid = getInitialGrid(level);
     setSudokuGrid(newGrid);
     setGridVersion(gridVersion + 1); // Force re-render
 
@@ -264,6 +267,12 @@ function SudokuGrid() {
 
   return (
     <div>
+      <div className='difficultyHeader'><h5>Select Difficulty</h5></div>
+      <div className='difficultyContainer'>
+        <button className='easyButton' onClick={() => resetSudoku('easy')} disabled={isSolving}>Easy</button>
+        <button className='mediumButton' onClick={() => resetSudoku('medium')} disabled={isSolving}>Medium</button>
+        <button className='hardButton'onClick={() => resetSudoku('hard')} disabled={isSolving}>Hard</button>
+      </div>
     <table key={gridVersion}>
       <tbody>
         {
