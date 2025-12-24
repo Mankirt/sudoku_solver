@@ -270,9 +270,9 @@ function SudokuGrid() {
     <div>
       <div className='difficultyHeader'>Select Difficulty</div>
       <div className='difficultyContainer'>
-        <button className='easyButton' onClick={() => resetSudoku('easy')} disabled={isSolving}>Easy</button>
-        <button className='mediumButton' onClick={() => resetSudoku('medium')} disabled={isSolving}>Medium</button>
-        <button className='hardButton'onClick={() => resetSudoku('hard')} disabled={isSolving}>Hard</button>
+        <button className={`easyButton ${difficulty === "easy" ? "selected" : ""}`} onClick={() => resetSudoku('easy')} disabled={isSolving}>Easy</button>
+        <button className={`mediumButton ${difficulty === "medium" ? "selected" : ""}`} onClick={() => resetSudoku('medium')} disabled={isSolving}>Medium</button>
+        <button className={`hardButton ${difficulty === "hard" ? "selected" : ""}`} onClick={() => resetSudoku('hard')} disabled={isSolving}>Hard</button>
       </div>
     <table key={gridVersion}>
       <tbody>
