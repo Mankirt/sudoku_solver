@@ -253,6 +253,7 @@ function SudokuGrid() {
 
   function resetSudoku(level = difficulty) {
     setDifficulty(level);
+    console.log("Resetting Sudoku to level:", level);
     localStorage.setItem('sudokuWasReset', 'true');
     const newGrid = getInitialGrid(level);
     setSudokuGrid(newGrid);
@@ -298,7 +299,7 @@ function SudokuGrid() {
     <div className='buttonContainer'>
       <button className='checkButton' onClick={checkSudoku} disabled={isSolving}>Check</button>
       <button className='solveButton' onClick={solveSudoku} disabled={isSolving}>Solve</button>
-      <button className='resetButton'onClick={resetSudoku} disabled={isSolving}>Reset</button>
+      <button className='resetButton'onClick={() => resetSudoku()} disabled={isSolving}>Reset</button>
     </div>
     </div>
   );
