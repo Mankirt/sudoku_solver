@@ -20,6 +20,7 @@ function SudokuGrid() {
   const [colSets, setColSets] = useState(() => buildSets(sudokuGrid).colSets);
   const [boxSets, setBoxSets] = useState(() => buildSets(sudokuGrid).boxSets);
   const[gridVersion, setGridVersion] = useState(0); // For forcing re-render
+  const [isSolving, setIsSolving] = useState(false);
 
   function generateValidSudoku(difficulty = "easy") {
     let grid = Array.from({ length: 9 }, () => Array(9).fill(-1));
@@ -162,7 +163,7 @@ function SudokuGrid() {
 
   function solveSudoku() {
     let crrGrid = copyGrid(sudokuGrid);
-
+    setIsSolving(true);
     // Initialize sets
     let rowSets = Array.from({ length: 9 }, () => new Set());
     let colSets = Array.from({ length: 9 }, () => new Set());
@@ -201,6 +202,7 @@ function SudokuGrid() {
         
       }
     }
+    setIsSolving(false);
   }
 
 
@@ -285,9 +287,9 @@ function SudokuGrid() {
       </tbody>
     </table>
     <div className='buttonContainer'>
-      <button className='checkButton' onClick={checkSudoku}>Check</button>
-      <button className='solveButton' onClick={solveSudoku}>Solve</button>
-      <button className='resetButton'onClick={resetSudoku}>Reset</button>
+      <button className='checkButton' onClick={checkSudoku} disabled={isSolving}>Check</button>
+      <button className='solveButton' onClick={solveSudoku} disabled={isSolving}>Solve</button>
+      <button className='resetButton'onClick={resetSudoku} disabled={isSolving}>Reset</button>
     </div>
     </div>
   );
